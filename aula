@@ -1,0 +1,60 @@
+#lang racket
+(require rackunit)
+
+(define (contem lst val)
+  (cond
+    [(empty? lst) #f]
+    [(equal? (first lst) val)
+         #t]
+     [else
+      (contem (rest lst) val)]))
+
+(define l (list 4 8 3 6 5 0 2))
+(check-equal? (contem l 5) #t)
+(check-equal? (contem l 4) #t)
+(check-equal? (contem l 2) #t)
+(check-equal? (contem l 7) #f)
+(check-equal? (contem l 9) #f)
+
+(define (remove-negativo lst)
+  (cond
+    [(empty? lst)
+     empty]
+    [(< (first lst) 0)
+     (remove-negativo (rest lst))]
+    [else
+     (cons (first lst) (remove-negativo (rest lst)))]))
+
+(define lista-virtuosa (list 4 3 -5 6 -7 9))
+(remove-negativo lista-virtuosa)
+
+
+(define (soma-ate n)
+  (cond
+    [(zero? n) 0]
+    [else
+     (+ n (soma-ate (sub1 n)))]))
+
+(check-equal? (soma-ate 10) 55)
+(check-equal? (soma-ate 0) 0)
+(check-equal? (soma-ate 5) 15)
+(check-equal? (soma-ate 1) 1)
+
+(define (insere-fim lst n)
+  (cond
+    [(empty? lst)
+     (cons n empty)]
+    [else
+     (cons (first lst) (insere-fim (rest lst) n))]))
+
+(define (lista-natural n)
+  (cond
+    [(zero? n)
+     empty]
+    [else
+     (insere-fim (lista-natural (sub1 n)) n)]))
+
+(lista-natural 9)
+(lista-natural 0)
+(lista-natural 3)
+(lista-natural 1)
